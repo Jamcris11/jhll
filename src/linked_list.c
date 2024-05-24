@@ -12,6 +12,7 @@ struct LinkedList
 	struct Node* current;
 	struct Node* end;
 	size_t element_size;
+	size_t length;
 };
 
 
@@ -26,6 +27,7 @@ linked_list_new(size_t element_size)
 	list->current = NULL;
 	list->end = NULL;
 	list->element_size = element_size;
+	list->length = 0;
 
 	return list;
 }
@@ -77,7 +79,46 @@ linked_list_add(struct LinkedList* list, void* data)
 
 	node->next = NULL;
 
+	list->length++;
+
 	return 0;
+}
+
+void
+linked_list_remove(struct LinkedList* list, int index)
+{
+	struct Node* node, *prev_node;
+
+	node = list->start;
+	prev_node = NULL;
+
+	for ( int i = 0; i < index; i++ ) {
+		if ( node->next == NULL ) { 
+			list->end = prev_node;
+			break; 
+		}
+
+		prev_node = node;
+		node = node->next;
+	}
+
+	if ( prev_node != NULL ) {
+		prev_node->next = node->next;
+	}
+	else {
+		list->start = node->next;
+	}
+
+	list->length--;
+
+	free(node->data);
+	free(node);
+}
+
+void*
+linked_list_end(struct LinkedList* list)
+{
+	return list->end->data;
 }
 
 void*
@@ -100,4 +141,14 @@ linked_list_reset_iterator(struct LinkedList* list)
 	list->current = list->start;
 }
 
+int
+linked_list_length(struct LinkedList* list)
+{
+	return list->length;
+}
 
+size_t
+linked_list_element_size(struct LinkedList* list)
+{
+	return list->element_size;
+}
