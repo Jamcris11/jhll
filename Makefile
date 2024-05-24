@@ -1,5 +1,5 @@
 CC = clang 
-CFLAGS = -Iinclude/ -g
+CFLAGS = -Iinclude/ -gdwarf-4
 LDFLAGS = 
 
 BIN = libjhll.a

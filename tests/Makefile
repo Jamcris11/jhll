@@ -1,5 +1,5 @@
 CC = clang
-CFLAGS = -I../include -g
+CFLAGS = -I../include -gdwarf-4
 LDFLAGS = -L../bin -ljhll 
 
 all: linked_list_test list_test
