@@ -33,14 +33,18 @@ linked_list_new(size_t element_size)
 void
 linked_list_delete(struct LinkedList* list)
 {
-	void* node_data;
-
-	linked_list_reset_iterator(list);
+	void* data;
+	struct Node* node, *previous_node;
 
 	if (list->start != NULL) {
-		while ( (node_data = linked_list_next(list)) != NULL ) {
-			free(node_data);
-		} 
+		node = list->start;
+
+		do {
+			previous_node = node;
+			node = node->next;
+			free(previous_node->data);
+			free(previous_node);
+		} while ( node != NULL );
 	}
 
 	free(list);
