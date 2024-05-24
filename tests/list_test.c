@@ -5,16 +5,13 @@ main(int argc, char** argv)
 {
 	struct List* list;
 
-	list = list_new(sizeof(int));
+	list = list_new(sizeof(char*));
 
-	list_add(list, &(int){10});
-	list_add(list, &(int){20});
-	list_add(list, &(int){30});
-	list_add(list, &(int){40});
-	list_add(list, &(int){50});
+	list_add(list, &(char*){"Hello world!"});
+	list_add(list, &(char*){"I tolerate you all!"});
 
 	for (int i = 0; i < list_length(list); i++ ) {
-		printf("%d\n", *(int*)list_get(list, i));
+		printf("%s\n", *(char**)list_get(list, i));
 	}
 
 	list_delete(list);
