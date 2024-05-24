@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+struct LinkedList;
+
 struct LinkedList*	linked_list_new(size_t element_size);
 void			linked_list_delete(struct LinkedList* list);
 
