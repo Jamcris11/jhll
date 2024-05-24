@@ -30,6 +30,30 @@ list_new(size_t element_size)
 	return list;
 }
 
+struct List*
+list_new_sized(size_t element_size, size_t size)
+{
+	struct List* list;
+
+	list = malloc(sizeof(struct List));
+
+	if ( list == NULL ) {
+		perror("failed to malloc list: ");
+		return NULL;
+	}
+
+	list->element_size = element_size;
+	list->size = size;
+	list->length = 0;
+
+	list->data = malloc(sizeof(void*) * list->size);
+
+	return list;
+
+}
+
+
+
 void
 list_delete(struct List* list)
 {
@@ -49,8 +73,6 @@ list_add(struct List* list, void* data)
 	if ( list->length >= list->size ) {
 		list->size *= 2;
 		list->data = realloc(list->data, sizeof(void*) * list->size);
-
-		printf("expanding list size to %zu\n", list->size);
 	}
 
 	list->data[list->length++] = malloc(list->element_size);

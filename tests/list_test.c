@@ -5,7 +5,7 @@ main(int argc, char** argv)
 {
 	struct List* list;
 
-	list = list_new(sizeof(char*));
+	list = list_new_sized(sizeof(char*), 1024);
 
 	list_add(list, &(char*){"Hello world!"});
 	list_add(list, &(char*){"I tolerate you all!"});

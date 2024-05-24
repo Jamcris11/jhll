@@ -9,6 +9,7 @@
 struct List;
 
 struct List*	list_new(size_t element_size);
+struct List*	list_new_sized(size_t element_size, size_t size);
 void		list_delete(struct List* list);
 
 int		list_add(struct List* list, void* data);
