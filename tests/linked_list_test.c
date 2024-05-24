@@ -4,20 +4,15 @@ int
 main(int argc, char** argv)
 {
 	struct LinkedList* list;
-	int* data;
+	char** data;
 
-	list = linked_list_new(sizeof(int));
+	list = linked_list_new(sizeof(char*));
 
-	for ( int x = 0, y = 1, z = 0, i = 0; i < 25; i++ ) {
-		linked_list_add(list, &(int){x + y});
-		
-		z = y;
-		y = x + y;
-		x = z;
-	}
+	linked_list_add(list, &(char*){"Hello world!"});
+	linked_list_add(list, &(char*){"How are you doing?"});
 
-	while ( (data = (int*)linked_list_next(list)) != NULL ) {
-		printf("%d\n", *data);
+	while ( (data = (char**)linked_list_next(list)) != NULL ) {
+		printf("%s\n", *data);
 	}
 
 	linked_list_delete(list);
