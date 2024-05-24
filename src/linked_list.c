@@ -116,6 +116,12 @@ linked_list_remove(struct LinkedList* list, int index)
 }
 
 void*
+linked_list_start(struct LinkedList* list)
+{
+	return list->start->data;
+}
+
+void*
 linked_list_end(struct LinkedList* list)
 {
 	return list->end->data;

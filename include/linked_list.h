@@ -14,6 +14,7 @@ void			linked_list_delete(struct LinkedList* list);
 int			linked_list_add(struct LinkedList* list, void* data);
 void*			linked_list_next(struct LinkedList* list);
 void			linked_list_remove(struct LinkedList* list, int index);
+void*			linked_list_start(struct LinkedList* list);
 void*			linked_list_end(struct LinkedList* list);
 void			linked_list_reset_iterator(struct LinkedList* list);
 int			linked_list_length(struct LinkedList* list);
