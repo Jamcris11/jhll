@@ -15,6 +15,7 @@ main(int argc, char** argv)
 
 	while ( (data = (char**)stack_pop(stack)) != NULL ) {
 		printf("%s\n", *data);
+		free(data);
 	}
 
 	stack_delete(stack);
