@@ -15,6 +15,7 @@ main(int argc, char** argv)
 
 	while ( (data = (char**)queue_dequeue(queue)) != NULL ) {
 		printf("%s\n", *data);
+		free(data);
 	}
 
 	queue_delete(queue);
