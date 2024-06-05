@@ -2,7 +2,8 @@ CC = clang
 CFLAGS = -I../include -gdwarf-4
 LDFLAGS = -L../bin -ljhll 
 
-all: linked_list_test list_test stack_test queue_test hashtable_test
+all: linked_list_test list_test stack_test queue_test hashtable_test \
+	logger_test
 
 linked_list_test: linked_list_test.c
 	$(CC) $(CFLAGS) -o ../bin/linked_list_test $^ $(LDFLAGS)
@@ -18,3 +19,8 @@ queue_test: queue_test.c
 
 hashtable_test: hashtable_test.c
 	$(CC) $(CFLAGS) -o ../bin/hashtable_test $^ $(LDFLAGS)
+
+logger_test: logger_test.c
+	$(CC) $(CFLAGS) -o ../bin/logger_test $^ $(LDFLAGS)
+
+
