@@ -1,4 +1,4 @@
-#include "logger.h"
+#include "log.h"
 
 struct Logger
 {
@@ -49,16 +49,16 @@ log_log(enum LogLevel level, const char* fmt, ...)
 
 	switch (level) {
 		case LOG_INFO:
-			index = sprintf(buffer, "[INFO]\t");
+			index = sprintf(buffer, " [INFO]  - ");
 			break;
 		case LOG_WARN:
-			index = sprintf(buffer, "[WARN]\t");
+			index = sprintf(buffer, " [WARN]  - ");
 			break;	
 		case LOG_ERROR:
-			index = sprintf(buffer, "[ERROR]\t");
+			index = sprintf(buffer, " [ERROR] - ");
 			break;
 		case LOG_FATAL:
-			index = sprintf(buffer, "[FATAL]\t");
+			index = sprintf(buffer, " [FATAL] - ");
 			break;
 	}
 	
@@ -69,9 +69,12 @@ log_log(enum LogLevel level, const char* fmt, ...)
 
 	len = strlen(buffer);
 
+	logger->buffer_used += len;
+
 	if ( logger->buffer_used + len > logger->buffer_size-1 ) {
+		printf("Increasing log buffer size\n");
 		logger->buffer_size *= 2;
-		logger->buffer = realloc(logger->buffer, logger->buffer_size);
+		logger->buffer = realloc(logger->buffer, sizeof(char) * logger->buffer_size);
 	}
 
 	strcat(logger->buffer, buffer);
