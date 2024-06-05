@@ -1,0 +1,2 @@
+hashtable: needs better hash function
+hashtable: needs better collision handling (currently just doesn't insert and returns error 1)
