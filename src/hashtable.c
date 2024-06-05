@@ -61,7 +61,19 @@ hashtable_insert(struct Hashtable* table, const char* key, void* value)
 int
 hashtable_remove(struct Hashtable* table, const char* key)
 {
-	// Todo
+	int hash;
+	int index;
+
+	hash = jims_hash_func(key);
+	index = hash % table->size;
+
+	if ( table->data[index] == NULL ) {
+		return 1;
+	}
+
+	free(table->data[index]);
+	table->data[index] = NULL;
+
 	return 0;
 }
 

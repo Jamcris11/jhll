@@ -11,9 +11,10 @@ main(int argc, char** argv)
 	hashtable_insert(table, "two", &(char*){ "How are we doing?" });
 	hashtable_insert(table, "three", &(char*){ "I'm doing great!" });
 
+	hashtable_remove(table, "three");
+
 	printf("key -> one: %s\n", *(char**)hashtable_get(table, "one"));
 	printf("key -> two: %s\n", *(char**)hashtable_get(table, "two"));
-	printf("key -> three: %s\n", *(char**)hashtable_get(table, "three"));
 
 	hashtable_delete(table);
 
