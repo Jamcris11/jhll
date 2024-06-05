@@ -33,4 +33,6 @@ void		log_set_opts(const struct LoggerOpts* opts);
 void		log_log(enum LogLevel, const char* fmt, ...);
 void		log_print();
 
+void		log_to_file(const char* path);
+
 #endif // LOGGER_H

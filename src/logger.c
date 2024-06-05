@@ -83,3 +83,16 @@ log_print()
 {
 	printf("%s", logger->buffer);
 }
+
+
+void
+log_to_file(const char* path)
+{
+	FILE* f;
+
+	f = fopen(path, "w");
+
+	fwrite(logger->buffer, sizeof(char), strlen(logger->buffer), f);
+
+	fclose(f);
+}

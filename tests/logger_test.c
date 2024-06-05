@@ -5,13 +5,16 @@ main(int argc, char** argv)
 {
 	log_init();
 
-	log_set_opts(&(struct LoggerOpts){ .min_level = LOG_WARN });
+	log_set_opts(&(struct LoggerOpts){ .min_level = LOG_INFO });
 
 
-	LOG(LOG_INFO, "This is a test log! From %s", "Jamie");
-	LOG(LOG_WARN, "We will find you");
+	for (int i = 0; i < 10; i++) {
+		LOG(LOG_INFO, "Counting to %d", i);
+	}
 	
 	LOG_PRINT();
+
+	log_to_file("log.txt");
 
 	log_quit();
 
