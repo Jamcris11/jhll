@@ -21,9 +21,11 @@ dir:
 	@mkdir -p bin
 	@mkdir -p bin/obj
 
-
-.PHONY: tests
+.PHONY: tests clean
 
 tests: $(TESTSDIR)
 	$(MAKE) -C $<
 
+clean:
+	rm bin/$(BIN)
+	rm bin/obj/*
