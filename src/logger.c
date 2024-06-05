@@ -5,6 +5,7 @@ struct Logger
 	char* buffer;
 	int buffer_size;
 	int buffer_used;
+	struct LoggerOpts options;
 };
 
 static struct Logger* logger = NULL;
@@ -18,6 +19,8 @@ log_init()
 	logger->buffer_size = BUFFER_SIZE;
 	logger->buffer_used = 0;
 
+	logger->options.min_level = LOG_INFO;
+
 	return 0;
 }
 
@@ -29,12 +32,20 @@ log_quit()
 }
 
 void
+log_set_opts(const struct LoggerOpts* opts)
+{
+	memcpy(&logger->options, opts, sizeof(struct LoggerOpts));
+}
+
+void
 log_log(enum LogLevel level, const char* fmt, ...)
 {
 	va_list args;
-	char buffer[512];
+	char buffer[BUFFER_SIZE];
 	int index;
 	int len;
+
+	if (level < logger->options.min_level) { return; }
 
 	switch (level) {
 		case LOG_INFO:

@@ -19,11 +19,17 @@ enum LogLevel
 	LOG_FATAL
 };
 
+struct LoggerOpts
+{
+	enum LogLevel min_level;
+};
+
 struct Logger;
 
 int		log_init();
 void		log_quit();
 
+void		log_set_opts(const struct LoggerOpts* opts);
 void		log_log(enum LogLevel, const char* fmt, ...);
 void		log_print();
 
