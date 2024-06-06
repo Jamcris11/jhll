@@ -10,7 +10,7 @@
 
 struct Stack;
 
-struct Stack*	stack_new(size_t element_size);
+struct Stack*	stack_new(size_t element_size, void (*free_callback)(void*));
 void		stack_delete(struct Stack* stack);
 
 void		stack_push(struct Stack* stack, void* data);

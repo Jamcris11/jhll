@@ -6,13 +6,13 @@ struct Stack
 };
 
 struct Stack*
-stack_new(size_t element_size)
+stack_new(size_t element_size, void (*free_callback)(void*))
 {
 	struct Stack* stack;
 
 	stack = malloc(sizeof(struct Stack));
 
-	stack->list = linked_list_new(element_size);
+	stack->list = linked_list_new(element_size, free_callback);
 
 	return stack;
 }
@@ -33,7 +33,7 @@ stack_push(struct Stack* stack, void* data)
 void*
 stack_pop(struct Stack* stack)
 {
-	void* val, *data;
+	void* val, * data;
 	int size;
 
 	if ( linked_list_length(stack->list) <= 0 ) {
@@ -41,11 +41,9 @@ stack_pop(struct Stack* stack)
 	}
 
 	size = linked_list_element_size(stack->list);
-
 	val = malloc(size);
 	data = linked_list_end(stack->list);
 	memcpy(val, data, size);
-
 	linked_list_remove(stack->list, linked_list_length(stack->list));
 
 	return val;
