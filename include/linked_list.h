@@ -8,7 +8,7 @@
 
 struct LinkedList;
 
-struct LinkedList*	linked_list_new(size_t element_size);
+struct LinkedList*	linked_list_new(size_t element_size, void (*free_callback)(void*));
 void			linked_list_delete(struct LinkedList* list);
 
 int			linked_list_add(struct LinkedList* list, void* data);

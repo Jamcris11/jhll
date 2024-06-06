@@ -13,11 +13,12 @@ struct LinkedList
 	struct Node* end;
 	size_t element_size;
 	size_t length;
+	void (*free_callback)(void*);
 };
 
 
 struct LinkedList*	
-linked_list_new(size_t element_size)
+linked_list_new(size_t element_size, void (*free_callback)(void*))
 {
 	struct LinkedList* list;
 
@@ -28,6 +29,7 @@ linked_list_new(size_t element_size)
 	list->end = NULL;
 	list->element_size = element_size;
 	list->length = 0;
+	list->free_callback = free_callback;
 
 	return list;
 }
@@ -44,7 +46,7 @@ linked_list_delete(struct LinkedList* list)
 		do {
 			previous_node = node;
 			node = node->next;
-			free(previous_node->data);
+			list->free_callback(previous_node->data);
 			free(previous_node);
 		} while ( node != NULL );
 	}
@@ -111,7 +113,7 @@ linked_list_remove(struct LinkedList* list, int index)
 
 	list->length--;
 
-	free(node->data);
+	list->free_callback(node->data);
 	free(node);
 }
 
