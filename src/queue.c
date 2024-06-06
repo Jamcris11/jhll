@@ -6,13 +6,13 @@ struct Queue
 };
 
 struct Queue*
-queue_new(size_t element_size)
+queue_new(size_t element_size, void (*free_callback)(void*))
 {
 	struct Queue* queue;
 
 	queue = malloc(sizeof(struct Queue));
 
-	queue->list = linked_list_new(element_size);
+	queue->list = linked_list_new(element_size, free_callback);
 
 	return queue;
 }

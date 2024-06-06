@@ -10,7 +10,7 @@
 
 struct Queue;
 
-struct Queue*	queue_new(size_t element_size);
+struct Queue*	queue_new(size_t element_size, void (*free_callback)(void*));
 void		queue_delete(struct Queue* queue);
 
 void		queue_enqueue(struct Queue* queue, void* data);
