@@ -20,17 +20,18 @@ main(int argc, char** argv)
 	hashtable_insert(table, "nine", &(char*){ "I'm doing coke!" });
 	hashtable_insert(table, "ten", &(char*){ "Splosh" });
 
-	//hashtable_remove(table, "three");
-
-	keys = hashtable_keys(table);
-	val = linked_list_next(keys);
+	//keys = hashtable_keys(table);
+	//val = linked_list_next(keys);
 
 	printf("#of keys: %d\n", hashtable_count(table));
 
-	while ( val != NULL ) {
+	/*while ( val != NULL ) {
 		printf("key -> %s: %s\n", val, *(char**)hashtable_get(table, val));
 		val = linked_list_next(keys);
-	}
+	}*/
+
+	printf("Value: %s\n", *(char**)hashtable_get(table, "one"));
+	printf("Value: %s\n", *(char**)hashtable_get(table, "eight"));
 
 	hashtable_delete(table);
 
