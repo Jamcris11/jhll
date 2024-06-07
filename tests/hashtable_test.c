@@ -9,6 +9,7 @@ main(int argc, char** argv)
 
 	table = hashtable_new(1024, sizeof(char*));
 
+	hashtable_insert(table, "zero", &(char*){ "..." });
 	hashtable_insert(table, "one", &(char*){ "Hello world!" });
 	hashtable_insert(table, "two", &(char*){ "How are we doing?" });
 	hashtable_insert(table, "three", &(char*){ "I'm doing great!" });
@@ -21,6 +22,8 @@ main(int argc, char** argv)
 	hashtable_insert(table, "ten", &(char*){ "Splosh" });
 	hashtable_insert(table, "fifthteen", &(char*){ "Splonky" });
 
+
+	hashtable_remove(table, "zero");
 	hashtable_remove(table, "fifthteen");
 
 	keys = hashtable_keys(table);
@@ -33,9 +36,6 @@ main(int argc, char** argv)
 		printf("key -> %s: %s\n", *(char**)val, *(char**)hashtable_get(table, *(char**)val));
 		val = linked_list_next(keys);
 	}
-
-	//printf("Value: %s\n", *(char**)hashtable_get(table, "one"));
-	//printf("Value: %s\n", *(char**)hashtable_get(table, "eight"));
 
 	hashtable_delete(table);
 

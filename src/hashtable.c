@@ -16,6 +16,7 @@ struct Hashtable
 
 static void	free_callback(void* data);
 static int	jims_hash_func(const char* key);
+static int	get_key_index(struct Hashtable* table, const char* key);
 
 struct Hashtable*
 hashtable_new(size_t size, size_t element_size)
@@ -36,9 +37,19 @@ hashtable_new(size_t size, size_t element_size)
 void
 hashtable_delete(struct Hashtable* table)
 {
-	for (int i = 0; i < table->size; i++ ) {
+	struct LinkedList* keys;
+	void* data;
+	int i;
+
+	keys = hashtable_keys(table);
+	linked_list_reset_iterator(keys);
+	data = linked_list_next(keys);
+
+	while ( data != NULL ) {
+		i = get_key_index(table, *(char**)data);
 		free(table->data[i].key);
 		free(table->data[i].value);
+		data = linked_list_next(keys);
 	}
 
 	linked_list_delete(table->keys);
@@ -49,16 +60,9 @@ hashtable_delete(struct Hashtable* table)
 int
 hashtable_insert(struct Hashtable* table, const char* key, void* value)
 {
-	int hash;
 	int index;
 
-	hash = jims_hash_func(key);
-
-	index = hash % table->size;
-
-	while ( table->data[index].key != NULL && strcmp(table->data[index].key, key) ) {
-		index = (index + 1) % table->size;
-	}
+	index = get_key_index(table, key);
 
 	linked_list_add(table->keys, &(char*) { (char*)key });
 	table->data[index].key = malloc(sizeof(char) * strlen(key) + 1);
@@ -73,7 +77,6 @@ hashtable_insert(struct Hashtable* table, const char* key, void* value)
 int
 hashtable_remove(struct Hashtable* table, const char* key)
 {
-	int hash;
 	int index;
 	void* ckey;
 
@@ -94,13 +97,7 @@ hashtable_remove(struct Hashtable* table, const char* key)
 	linked_list_remove(table->keys, index);
 	linked_list_reset_iterator(table->keys);
 
-
-	hash = jims_hash_func(key);
-	index = hash % table->size;
-
-	while ( table->data[index].key != NULL && strcmp(table->data[index].key, key) ) {
-		index = (index + 1) % table->size;
-	}
+	index = get_key_index(table, key);
 
 	free(table->data[index].key);
 	free(table->data[index].value);
@@ -115,18 +112,11 @@ hashtable_remove(struct Hashtable* table, const char* key)
 void*
 hashtable_get(struct Hashtable* table, const char* key)
 {
-	int hash;
 	int index;
 
-	hash = jims_hash_func(key);
-	index = hash % table->size;
-	
-	while ( table->data[index].key != NULL && strcmp(table->data[index].key, key) ) {
-		index = (index + 1) % table->size;
-	}
+	index = get_key_index(table, key);
 
 	return table->data[index].key != NULL ? table->data[index].value : NULL;
-
 }
 
 int
@@ -144,7 +134,6 @@ hashtable_keys(struct Hashtable* table)
 static void
 free_callback(void* data)
 {
-	//free(*(char**)data);
 	free(data);
 }
 
@@ -162,3 +151,16 @@ jims_hash_func(const char* key)
 	return val;
 }
 
+static int
+get_key_index(struct Hashtable* table, const char* key)
+{
+	int index;
+
+	index = jims_hash_func(key) % table->size;
+	
+	while ( table->data[index].key != NULL && strcmp(table->data[index].key, key) ) {
+		index = (index + 1) % table->size;
+	}
+
+	return index;
+}
