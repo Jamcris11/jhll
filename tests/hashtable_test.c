@@ -5,7 +5,7 @@ main(int argc, char** argv)
 {
 	struct Hashtable* table;
 	struct LinkedList* keys;
-	char* val;
+	void* val;
 
 	table = hashtable_new(1024, sizeof(char*));
 
@@ -19,19 +19,21 @@ main(int argc, char** argv)
 	hashtable_insert(table, "eight", &(char*){ "I'm doing terrible!" });
 	hashtable_insert(table, "nine", &(char*){ "I'm doing coke!" });
 	hashtable_insert(table, "ten", &(char*){ "Splosh" });
+	hashtable_insert(table, "fifthteen", &(char*){ "Splonky" });
 
-	//keys = hashtable_keys(table);
-	//val = linked_list_next(keys);
+	keys = hashtable_keys(table);
+	linked_list_reset_iterator(keys);
+	val = linked_list_next(keys);
 
 	printf("#of keys: %d\n", hashtable_count(table));
 
-	/*while ( val != NULL ) {
-		printf("key -> %s: %s\n", val, *(char**)hashtable_get(table, val));
+	while ( val != NULL ) {
+		printf("key -> %s: %s\n", *(char**)val, *(char**)hashtable_get(table, *(char**)val));
 		val = linked_list_next(keys);
-	}*/
+	}
 
-	printf("Value: %s\n", *(char**)hashtable_get(table, "one"));
-	printf("Value: %s\n", *(char**)hashtable_get(table, "eight"));
+	//printf("Value: %s\n", *(char**)hashtable_get(table, "one"));
+	//printf("Value: %s\n", *(char**)hashtable_get(table, "eight"));
 
 	hashtable_delete(table);
 

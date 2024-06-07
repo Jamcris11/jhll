@@ -11,10 +11,11 @@ struct Hashtable
 	size_t size;
 	size_t element_size;
 	struct HashtableKV* data;
-	//struct LinkedList* keys;
+	struct LinkedList* keys;
 };
 
-static int jims_hash_func(const char* key);
+static void	free_callback(void* data);
+static int	jims_hash_func(const char* key);
 
 struct Hashtable*
 hashtable_new(size_t size, size_t element_size)
@@ -27,7 +28,7 @@ hashtable_new(size_t size, size_t element_size)
 	table->element_size = element_size;
 
 	table->data = calloc(size, sizeof(struct HashtableKV));
-	//table->keys = linked_list_new(sizeof(char*));
+	table->keys = linked_list_new(sizeof(char*), free_callback);
 
 	return table;
 }
@@ -40,7 +41,7 @@ hashtable_delete(struct Hashtable* table)
 		free(table->data[i].value);
 	}
 
-	//linked_list_delete(table->keys);
+	linked_list_delete(table->keys);
 	free(table->data);
 	free(table);
 }
@@ -59,7 +60,7 @@ hashtable_insert(struct Hashtable* table, const char* key, void* value)
 		index = (index + 1) % table->size;
 	}
 
-	//linked_list_add(table->keys, (void*)key);
+	linked_list_add(table->keys, &(char*) { (char*)key });
 	table->data[index].key = malloc(sizeof(char) * strlen(key) + 1);
 	strcpy(table->data[index].key, key);
 
@@ -76,7 +77,7 @@ hashtable_remove(struct Hashtable* table, const char* key)
 	int index;
 	char* ckey;
 
-	/*linked_list_reset_iterator(table->keys);
+	linked_list_reset_iterator(table->keys);
 
 	index = 0;
 	ckey = linked_list_next(table->keys);
@@ -90,8 +91,10 @@ hashtable_remove(struct Hashtable* table, const char* key)
 		return 1;
 	}
 
-	linked_list_remove(table->keys, index);*/
-	
+	linked_list_remove(table->keys, index);
+	linked_list_reset_iterator(table->keys);
+
+
 	hash = jims_hash_func(key);
 	index = hash % table->size;
 
@@ -105,7 +108,6 @@ hashtable_remove(struct Hashtable* table, const char* key)
 	table->data[index].key = NULL;
 	table->data[index].value = NULL;
 
-	//linked_list_reset_iterator(table->keys);
 
 	return 0;
 }
@@ -130,15 +132,20 @@ hashtable_get(struct Hashtable* table, const char* key)
 int
 hashtable_count(struct Hashtable* table)
 {
-	return 0;
-	//return linked_list_length(table->keys); 
+	return linked_list_length(table->keys); 
 }
 
 struct LinkedList*
 hashtable_keys(struct Hashtable* table)
 {
-	//return table->keys;
-	return NULL;
+	return table->keys;
+}
+
+static void
+free_callback(void* data)
+{
+	//free(*(char**)data);
+	free(data);
 }
 
 static int
