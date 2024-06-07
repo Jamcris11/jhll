@@ -1,7 +1,8 @@
+#include "chronos.h"
 #include "hashtable.h"
 
-int
-main(int argc, char** argv)
+static size_t
+do_stuff()
 {
 	struct Hashtable* table;
 	struct LinkedList* keys;
@@ -38,6 +39,17 @@ main(int argc, char** argv)
 	}
 
 	hashtable_delete(table);
+
+	return 0;
+}
+
+int
+main(int argc, char** argv)
+{
+	double seconds_elapsed = TIME(do_stuff);
+
+	printf("---------------------\n");
+	printf("Time taken: %f\n", seconds_elapsed);
 
 	return 0;
 }
