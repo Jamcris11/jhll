@@ -75,14 +75,14 @@ hashtable_remove(struct Hashtable* table, const char* key)
 {
 	int hash;
 	int index;
-	char* ckey;
+	void* ckey;
 
 	linked_list_reset_iterator(table->keys);
 
 	index = 0;
 	ckey = linked_list_next(table->keys);
 
-	while ( strcmp(ckey, key) ) {
+	while ( strcmp(*(char**)ckey, key) ) {
 		index++;
 		ckey = linked_list_next(table->keys);
 	}

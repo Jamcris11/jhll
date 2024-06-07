@@ -21,6 +21,8 @@ main(int argc, char** argv)
 	hashtable_insert(table, "ten", &(char*){ "Splosh" });
 	hashtable_insert(table, "fifthteen", &(char*){ "Splonky" });
 
+	hashtable_remove(table, "fifthteen");
+
 	keys = hashtable_keys(table);
 	linked_list_reset_iterator(keys);
 	val = linked_list_next(keys);
